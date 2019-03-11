@@ -2,13 +2,15 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 
 const db = require('../data/helpers/authHelpers');
+const generateToken = require('../config/tokenServices');
 
 router.post('/login', (req, res) => {
   if(req.body.username && req.body.password) {
     db.findBy({username: req.body.username})
       .then(user => {
         if(user && bcrypt.compareSync(req.body.password, user.password)) {
-          res.status(200).json({message: `Successfully logged in, welcome ${user.name}!`})
+          const token = generateToken(user);
+          res.status(200).json({message: `Successfully logged in, welcome ${user.name}!`, token})
         } else {
           res.status(401).json({message: 'Invalid credentials'});
         }
