@@ -4,10 +4,11 @@ exports.up = function(knex, Promise) {
     t.increments();
     t.integer('school_id')
     .unsigned()
+    .notNullable()
     .references('id')
     .inTable('schools')
-    .onDelete('RESTRICT')
-    .onUpdate('CASCADE');
+    .onDelete('CASCADE');
+    
     t.string('name', 128).notNullable();
     t.string('username', 128).notNullable().unique();
     t.string('password');
