@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
     .onUpdate('CASCADE');
     t.string('name', 128).notNullable();
     t.string('username', 128).notNullable().unique();
+    t.string('password');
     t.text('picture');
     t.text('bio');
     t.text('status');
