@@ -1,7 +1,7 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('user_bubbles').truncate()
+  return knex('user_bubbles').del()
     .then(function () {
       // Inserts seed entries
       return knex('user_bubbles').insert([
