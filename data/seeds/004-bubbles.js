@@ -5,9 +5,9 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('bubbles').insert([
-        {bubble: 'Memes'},
-        {bubble: 'Video Games'},
-        {bubble: 'Dogs'}
+        {id: 1, bubble: 'Memes'},
+        {id: 2, bubble: 'Video Games'},
+        {id: 3, bubble: 'Dogs'}
       ]);
     });
 };
