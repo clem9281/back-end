@@ -6,7 +6,6 @@ const restricted = require('../auth/restricted');
 router.use(restricted);
 
 router.get('/', (req, res) => {
-  console.log(req.decoded);
   db.getUserPosts(req.decoded.subject)
     .then(posts => res.status(200).json(posts))
     .catch(err => res.status(500).json({message: 'Could not retrieve your posts at this time', err}));
