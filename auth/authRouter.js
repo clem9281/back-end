@@ -19,6 +19,17 @@ router.post('/login', (req, res) => {
   } else {
     res.status(400).json({message: 'Please provide a username and password'});
   }
+});
+
+router.post('/register', (req, res) => {
+  if(!req.body.username || !req.body.password || !req.body.name || req.body.school_id === undefined) {
+    res.status(400).json({message: 'Please provide your name, a username, password and a valid school ID'});
+  } else {
+    req.body.password = bcrypt.hashSync(req.body.password, 12);
+    db.add(req.body)
+      .then(id => res.status(201).json({message: 'Successfully signed up!'}))
+      .catch(err => res.status(500).json({message: 'Could not register at this time'}));
+  }
 })
 
 module.exports = router;
