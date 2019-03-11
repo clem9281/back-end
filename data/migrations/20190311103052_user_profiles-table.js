@@ -13,6 +13,7 @@ exports.up = function(knex, Promise) {
     t.text('picture');
     t.text('bio');
     t.text('status');
+    t.timestamps(true, true);
   })
 };
 
