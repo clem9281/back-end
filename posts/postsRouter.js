@@ -11,9 +11,12 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({message: 'Could not retrieve your posts at this time', err}));
 })
 
-router.get('/school', (req, res) => {
-  db.getSchoolsPosts(req.decoded.school_id)
-    .then(posts => res.status(200).json(posts))
+router.get('/filter/:id', (req, res) => {
+  db.getFilteredPosts(req.decoded.school_id, req.params.id)
+    .then(async posts => {
+      posts = await Promise.all(posts);
+      res.status(200).json(posts)
+    })
     .catch(err => res.status(500).json({message: 'Could not retrieve posts for school at this time', err}));
 })
 
