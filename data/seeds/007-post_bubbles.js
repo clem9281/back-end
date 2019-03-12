@@ -10,6 +10,6 @@ exports.seed = function(knex, Promise) {
         {post_id: 6, bubble_id: 2},
         {post_id: 7, bubble_id: 5},
         {post_id: 8, bubble_id: 4},
-        {ipost_id: 9, bubble_id: 6},
+        {post_id: 9, bubble_id: 6},
       ]);
 };
