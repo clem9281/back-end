@@ -39,4 +39,17 @@ router.delete('/:id', (req, res) => {
     })
 })
 
+router.post('/', (req, res) => {
+  if(!req.body.user_id || !req.body.post_content || !req.body.bubbles) {
+    res.status(400).json({message: 'Make sure you pass in a user_id, post_content and a bubbles array with the ids'});
+  } else {
+    db.addPost(req.body)
+    .then(newUser => {
+      console.log(newUser);
+      res.status(201).json(newUser)
+    })
+    .catch(err => res.status(500).json({message: 'Could not create a post at this time', err}));
+  }
+})
+
 module.exports = router;
