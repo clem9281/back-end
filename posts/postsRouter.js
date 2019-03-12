@@ -45,7 +45,6 @@ router.post('/', (req, res) => {
   } else {
     db.addPost(req.body)
     .then(newUser => {
-      console.log(newUser);
       res.status(201).json(newUser)
     })
     .catch(err => res.status(500).json({message: 'Could not create a post at this time', err}));
