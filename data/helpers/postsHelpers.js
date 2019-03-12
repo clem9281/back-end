@@ -27,16 +27,16 @@ function deletePost(id) {
 }
 
 const addPost = async post => {
-  console.log(typeof post.user_id);
-  console.log(typeof post.post_content);
+  //console.log(typeof post.user_id);
+  //console.log(typeof post.post_content);
   const postID = await db('posts').insert({user_id: post.user_id, post_content: post.post_content});
 
   const id = await Promise.all(post.bubbles.map( async bubble => {
-    console.log(typeof bubble);
+    //console.log(typeof bubble);
     return await db('post_bubbles').insert({bubble_id: bubble, post_id: postID[0]});
   }));
 
-  console.log('Da ID', typeof postID[0]);
+  //console.log('Da ID', typeof postID[0]);
 
   // const newPost = await db.select('p.id', 'u.name', 'p.post_content', 'p.likes', 'p.created_at').from('posts as p')
   // .innerJoin('user_profiles as u', 'p.user_id', 'u.id')
