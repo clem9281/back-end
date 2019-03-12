@@ -1,9 +1,7 @@
 const db = require('../dbConfig');
 
 module.exports = {
-  get,
-  joinBubble,
-  leaveBubble
+  get
 }
 
 function get(id) {
@@ -16,12 +14,4 @@ function get(id) {
         bubbles
       }
     })
-}
-
-function joinBubble(bubble) {
-  return db('user_bubbles').insert(bubble);
-}
-
-function leaveBubble(id) {
-  return db('user_bubbles').where({id}).del();
 }
