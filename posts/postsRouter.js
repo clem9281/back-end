@@ -17,4 +17,23 @@ router.get('/school', (req, res) => {
     .catch(err => res.status(500).json({message: 'Could not retrieve posts for school at this time', err}));
 })
 
+router.delete('/:id', (req, res) => {
+  db.get(req.params.id)
+    .then( post => {
+      if(String(post.user_id) === req.params.id) {
+        db.deletePost(req.params.id)
+          .then(count => {
+            if(count > 0) {
+              res.status(204).end();
+            } else {
+              res.status(404).json({message: 'The post you tried to delete was not found'});
+            }
+          })
+          .catch(err => res.status(500).json({message: 'Post could not be deleted at this time', err}));
+      } else {
+        res.status(401).json({message: 'The post you tried to delete does not belong to you'});
+      }
+    })
+})
+
 module.exports = router;
