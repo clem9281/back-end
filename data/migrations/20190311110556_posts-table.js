@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
     .inTable('user_profiles')
     .onDelete('RESTRICT')
     .onUpdate('CASCADE');
-    t.text('post_content');
+    t.string('post_content', 256);
     t.integer('likes');
     t.timestamps(true, true);
   })

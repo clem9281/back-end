@@ -29,13 +29,13 @@ function deletePost(id) {
 const addPost = async post => {
   //console.log(typeof post.user_id);
   //console.log(typeof post.post_content);
-  const postID = await db('posts').insert({user_id: post.user_id, post_content: post.post_content, likes: 0});
+  const postID = await db('posts').returning('id').insert({user_id: post.user_id, post_content: post.post_content, likes: 0});
 
-  // const id = await Promise.all(post.bubbles.map( async bubble => {
-  //   console.log(bubble);
-  //   console.log(postID[0]);
-  //   return await db('post_bubbles').insert({bubble_id: bubble, post_id: postID[0]});
-  // }));
+  const id = await Promise.all(post.bubbles.map( async bubble => {
+    console.log(bubble);
+    console.log(postID[0]);
+    return await db('post_bubbles').insert({bubble_id: bubble, post_id: postID[0]});
+  }));
 
   //console.log('Da ID', typeof postID[0]);
 
