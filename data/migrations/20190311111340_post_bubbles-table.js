@@ -7,14 +7,14 @@ exports.up = function(knex, Promise) {
     .unsigned()
     .references('id')
     .inTable('posts')
-    .onDelete('RESTRICT')
+    .onDelete('CASCADE')
     .onUpdate('CASCADE');
 
     t.integer('bubble_id')
     .unsigned()
     .references('id')
     .inTable('bubbles')
-    .onDelete('RESTRICT')
+    .onDelete('CASCADE')
     .onUpdate('CASCADE');
 
     t.timestamps(true, true);

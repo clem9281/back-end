@@ -6,10 +6,10 @@ exports.up = function(knex, Promise) {
     .unsigned()
     .references('id')
     .inTable('user_profiles')
-    .onDelete('RESTRICT')
+    .onDelete('CASCADE')
     .onUpdate('CASCADE');
-    t.text('post_content');
-    t.integer('likes');
+    t.string('post_content', 256);
+    t.integer('likes').defaultTo(0);
     t.timestamps(true, true);
   })
 };

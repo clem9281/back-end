@@ -14,7 +14,19 @@ router.get('/', (req, res) => {
 router.post('/join/:id', (req, res) => {
   db.joinBubble({student_id: req.decoded.subject, bubble_id: req.params.id})
     .then(id => res.status(200).json({message: 'Successfully Joined bubble'}))
-    .catch(err => res.status(500).json({message: 'Could not join bubble at this time'}));
+    .catch(err => res.status(500).json({message: 'Could not join bubble at this time', err}));
+})
+
+router.delete('/leave/:id', (req, res) => {
+  db.leaveBubble(Number(req.params.id), req.decoded.subject)
+    .then(count => {
+      if(count > 0) {
+        res.status(200).json({message: 'Successfully left bubble'});
+      } else {
+        res.status(400).json({message: 'You are not part of the bubble you tried to leave'});
+      }
+    })
+    .catch(err => res.status(500).json({message: 'Could not leave bubble at this time'}));
 })
 
 module.exports = router;
