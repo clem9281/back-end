@@ -6,5 +6,5 @@ exports.seed = async (knex, Promise) => {
         {id: 2, name: 'Hogwarts'}
       ]);
 
-      return await knex.raw('select setval(\'schools_id_seq\'), max(id)) from schools');
+      return await knex.raw('select setval(\'schools_id_seq\', max(id)) from schools');
 };
