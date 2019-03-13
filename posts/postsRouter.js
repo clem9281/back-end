@@ -42,13 +42,23 @@ router.delete('/:id', (req, res) => {
     })
 })
 
+router.put('/:id', (req, res) => {
+  if(!req.body.user_id || !req.body.post_content || !req.body.bubbles) {
+    res.status(400).json({message: 'Make sure you pass in a user_id, post_content and a bubbles array with the ids'});
+  } else {
+    db.updatePost(req.params.id, req.body)
+      .then(post => res.status(200).json(post))
+      .catch(err => res.status(500).json({message: 'Could not update the specified post at this time', err}));
+  }
+})
+
 router.post('/', (req, res) => {
   if(!req.body.user_id || !req.body.post_content || !req.body.bubbles) {
     res.status(400).json({message: 'Make sure you pass in a user_id, post_content and a bubbles array with the ids'});
   } else {
     db.addPost(req.body)
-    .then(newUser => {
-      res.status(201).json(newUser)
+    .then(newPost => {
+      res.status(201).json(newPost)
     })
     .catch(err => res.status(500).json({message: 'Could not create a post at this time', err}));
   }
