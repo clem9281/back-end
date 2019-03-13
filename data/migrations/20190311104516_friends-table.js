@@ -7,14 +7,14 @@ exports.up = function(knex, Promise) {
     .unsigned()
     .references('id')
     .inTable('user_profiles')
-    .onDelete('RESTRICT')
+    .onDelete('CASCADE')
     .onUpdate('CASCADE');
 
     t.integer('friend_id')
     .unsigned()
     .references('id')
     .inTable('user_profiles')
-    .onDelete('RESTRICT')
+    .onDelete('CASCADE')
     .onUpdate('CASCADE');
 
     t.timestamps(true, true);
