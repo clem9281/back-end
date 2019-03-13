@@ -7,7 +7,10 @@ router.use(restricted);
 
 router.get('/', (req, res) => {
   db.getUserPosts(req.decoded.subject)
-    .then(posts => res.status(200).json(posts))
+    .then(async posts => {
+      posts = await Promise.all(posts);
+      res.status(200).json(posts)
+    })
     .catch(err => res.status(500).json({message: 'Could not retrieve your posts at this time', err}));
 })
 

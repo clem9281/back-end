@@ -5,7 +5,17 @@ function get(id) {
 }
 
 function getUserPosts(id) {
-    return db('posts').where({user_id: id});
+    return db('posts').where({user_id: id})
+      .then(posts => {
+        return posts.map(async post => {
+          const bubbles = await db.select('b.id', 'b.bubble', 'b.created_at').from('bubbles as b').innerJoin('post_bubbles as pb', 'pb.bubble_id', 'b.id').where({'pb.post_id': post.id})
+          const comments = await db.select('pc.id', 'u.name', 'pc.comment', 'pc.created_at').from('post_comments as pc')
+          .innerJoin('user_profiles as u', 'pc.user_id', 'u.id')
+          .where({'pc.post_id': post.id});
+          //console.log({...post, bubbles, comments})
+          return {...post, bubbles, comments};
+        })
+      })
 }
 
 function getFilteredPosts(schoolID, id) {
@@ -16,7 +26,10 @@ function getFilteredPosts(schoolID, id) {
   .then(posts => {
     return posts.map(async post => {
       const bubbles = await db.select('b.id', 'b.bubble', 'b.created_at').from('bubbles as b').innerJoin('post_bubbles as pb', 'pb.bubble_id', 'b.id').where({'pb.post_id': post.id})
-      return {...post, bubbles: bubbles} 
+      const comments = await db.select('pc.id', 'u.name', 'pc.comment', 'pc.created_at').from('post_comments as pc')
+      .innerJoin('user_profiles as u', 'pc.user_id', 'u.id')
+      .where({'pc.post_id': post.id});
+      return {...post, bubbles: bubbles, comments};
     })
   })
   .catch(err => console.log(err));
