@@ -17,6 +17,6 @@ function joinBubble(bubble) {
   return db('user_bubbles').insert(bubble);
 }
 
-function leaveBubble(id) {
-  return db('user_bubbles').where({id}).del();
+function leaveBubble(bubble_id, student_id) {
+  return db('user_bubbles').where({bubble_id, student_id}).del();
 }
