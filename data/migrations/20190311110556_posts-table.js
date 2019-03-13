@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
     .onDelete('RESTRICT')
     .onUpdate('CASCADE');
     t.string('post_content', 256);
-    t.integer('likes');
+    t.integer('likes').defaultTo(0);
     t.timestamps(true, true);
   })
 };
