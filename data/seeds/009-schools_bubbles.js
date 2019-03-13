@@ -1,7 +1,7 @@
 
-exports.seed = function(knex, Promise) {
+exports.seed = async (knex, Promise) => {
       // Inserts seed entries
-      return knex('schools_bubbles').insert([
+      await knex('schools_bubbles').insert([
         {id: 1, school_id: 1, bubble_id: 1},
         {id: 2, school_id: 1, bubble_id: 2},
         {id: 3, school_id: 1, bubble_id: 3},
@@ -9,4 +9,6 @@ exports.seed = function(knex, Promise) {
         {id: 5, school_id: 2, bubble_id: 5},
         {id: 6, school_id: 2, bubble_id: 6},
       ]);
+
+      return await knex.raw('select setval(\'schools_id_seq\', max(id)) from schools');
 };
