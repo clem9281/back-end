@@ -19,4 +19,16 @@ router.post('/', (req, res) => {
   }
 })
 
+router.delete('/:id', (req, res) => {
+  db.deleteComment(req.params.id)
+    .then(count => {
+      if(count > 0) {
+        res.status(200).json({message: 'Successfully removed comment'});
+      } else {
+        res.status(404).json({message: 'The comment you tried to delete was not found'});
+      }
+    })
+    .catch(err => res.status(500).json({message: 'Could not delete your comment at this time'}));
+});
+
 module.exports = router;
