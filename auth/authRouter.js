@@ -28,7 +28,7 @@ router.post('/register', (req, res) => {
     req.body.password = bcrypt.hashSync(req.body.password, 12);
     db.add(req.body)
       .then(id => res.status(201).json({message: 'Successfully signed up!'}))
-      .catch(err => res.status(500).json({message: 'Could not register at this time'}));
+      .catch(err => res.status(500).json({message: 'Could not register at this time', err}));
   }
 })
 
