@@ -78,4 +78,29 @@ describe('postsRouter.js', () => {
       expect(res.status).toBe(404);
     });
   });
+  describe('PUT /', () => {
+    beforeEach(async () => {
+      await db('posts').truncate();
+      await request(server).post('/api/posts').send({user_id: 1, post_content: 'Test', bubbles: [1]}).set('Authorization', token);
+    })
+    afterAll(async () => {
+      await db('posts').truncate();
+    });
+    it('should return a 201 status code on successful update', async () => {
+      const res = await request(server).put('/api/posts/1').send({user_id: 1, post_content: 'Test updated', bubbles: [1]}).set('Authorization', token);
+      expect(res.status).toBe(200);
+    });
+    it('should return a 400 status code on incomplete request', async () => {
+      const res = await request(server).put('/api/posts/1').send({user_id: 1, post_content: 'Test'}).set('Authorization', token);
+      expect(res.status).toBe(400);
+    });
+    it('should return JSON', async () => {
+      const res = await request(server).put('/api/posts/1').send({user_id: 1, post_content: 'Test', bubbles: [1]}).set('Authorization', token);
+      expect(res.type).toBe('application/json');
+    });
+    it('should return JSON on bad request', async () => {
+      const res = await request(server).put('/api/posts/1').send({user_id: 1, post_content: 'Test'}).set('Authorization', token);
+      expect(res.type).toBe('application/json');
+    });
+  });
 });
