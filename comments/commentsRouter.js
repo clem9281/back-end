@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
       user_id: req.decoded.subject
     }
     db.addComment(comment)
-      .then(newComment => res.status(200).json(newComment))
+      .then(newComment => res.status(201).json(newComment))
       .catch(err => res.status(500).json({message: 'Could not create a new comment at this time', err}));
   }
 })
@@ -23,7 +23,7 @@ router.delete('/:id', (req, res) => {
   db.deleteComment(req.params.id)
     .then(count => {
       if(count > 0) {
-        res.status(200).json({message: 'Successfully removed comment'});
+        res.status(204).end();
       } else {
         res.status(404).json({message: 'The comment you tried to delete was not found'});
       }

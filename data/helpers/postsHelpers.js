@@ -41,6 +41,7 @@ function deletePost(id) {
 
 const updatePost = async (id, post) => {
   const count = await db('posts').where({id}).update({user_id: post.user_id, post_content: post.post_content});
+  await db('post_bubbles').where({'post_id': id}).del();
   if(count > 0) {
     const ids = await Promise.all(post.bubbles.map( async bubble => {
       return await db('post_bubbles').insert({bubble_id: bubble, post_id: id});
