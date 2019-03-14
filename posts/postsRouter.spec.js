@@ -41,4 +41,41 @@ describe('postsRouter.js', () => {
       expect(res.body.length).toBeDefined();
     });
   });
+  describe('POST /', () => {
+    afterEach(async () => {
+      await db('posts').truncate();
+    });
+    it('should return a 201 status code on successful creation', async () => {
+      const res = await request(server).post('/api/posts').send({user_id: 1, post_content: 'Test', bubbles: [1]}).set('Authorization', token);
+      expect(res.status).toBe(201);
+    });
+    it('should return a 400 status code on incomplete request', async () => {
+      const res = await request(server).post('/api/posts').send({user_id: 1, post_content: 'Test'}).set('Authorization', token);
+      expect(res.status).toBe(400);
+    });
+    it('should return JSON', async () => {
+      const res = await request(server).post('/api/posts').send({user_id: 1, post_content: 'Test', bubbles: [1]}).set('Authorization', token);
+      expect(res.type).toBe('application/json');
+    });
+    it('should return JSON on bad request', async () => {
+      const res = await request(server).post('/api/posts').send({user_id: 1, post_content: 'Test'}).set('Authorization', token);
+      expect(res.type).toBe('application/json');
+    });
+  });
+  describe('DELETE /', () => {
+    beforeEach(async () => {
+      await request(server).post('/api/posts').send({user_id: 1, post_content: 'Test', bubbles: [1]}).set('Authorization', token);
+    })
+    afterEach(async () => {
+      await db('posts').truncate();
+    });
+    it('should return 204 status code on successful delete', async () => {
+      const res = await request(server).delete('/api/posts/1').set('Authorization', token);
+      expect(res.status).toBe(204);
+    });
+    it('should return 404 status code when it doensnt find a post to delete', async () => {
+      const res = await request(server).delete('/api/posts/100').set('Authorization', token);
+      expect(res.status).toBe(404);
+    });
+  });
 });
